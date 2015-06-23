@@ -10,7 +10,7 @@
 
 @implementation UIView (Positioning)
 
-const static CGFloat _scale = [UIScreen mainScreen].scale;
+static CGFloat _scale;
 
 #pragma mark - Center absolutely
 
@@ -230,6 +230,11 @@ const static CGFloat _scale = [UIScreen mainScreen].scale;
 
 -(CGFloat)pinToPixel:(CGFloat)value
 {
+	static dispatch_once_t onceToken;
+	    dispatch_once(&onceToken, ^{
+	        _scale = [UIScreen mainScreen].scale;
+	    });
+	
     if (_scale <= 1)
         return roundf(value);
     
